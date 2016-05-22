@@ -8,17 +8,25 @@ fn print_frame_from_array(ary: &[&str]) {
   print_stars(max + 2);
   println!("");
   for i in 0..ary.len() {
-    print!("*");
-    print!("{0}", ary[i]);
-    let mut current_len = ary[i].len();
-    while current_len < max {
-      print!(" ");
-      current_len += 1;
-    }
-    print!("*");
-    println!("");
+    print_frame(ary[i], max)
   }
   print_stars(max + 2);
+}
+
+fn print_frame(text: &str, max_size: usize) {
+  print!("*");
+  print!("{0}", text);
+  space_padded_print(text, max_size);
+  print!("*");
+  println!("");
+}
+
+fn space_padded_print(text: &str, max_size: usize) {
+  let mut current_len = text.len();
+  while current_len < max_size {
+    print!(" ");
+    current_len += 1;
+  }
 }
 
 fn print_stars(count: usize) {
