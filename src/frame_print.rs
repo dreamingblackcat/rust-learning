@@ -4,7 +4,7 @@ fn main() {
 }
 
 fn print_frame_from_array(ary: &[&str]) {
-  let max: usize = largest_member_of(ary);
+  let max: usize = longest_member_of(ary);
   print_stars(max + 2);
   println!("");
   for i in 0..ary.len() {
@@ -27,7 +27,7 @@ fn print_stars(count: usize) {
   }
 }
 
-fn largest_member_of(ary: &[&str]) -> usize {
+fn longest_member_of(ary: &[&str]) -> usize {
   let mut max: usize = 0;
     for i in 0..ary.len() {
         if ary[i].len() > max {
