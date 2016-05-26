@@ -6,6 +6,10 @@ fn main() {
   assert_eq!(compare_dl(&to_digit_list(num), &to_digit_list(1000)), -1);
   assert_eq!(compare_dl(&to_digit_list(num), &to_digit_list(100)), 0);
   assert_eq!(subtract_dl(to_digit_list(num), to_digit_list(10)), [9,0]);
+  assert_eq!(multi_single(3, 3), (0, 9));
+  assert_eq!(multi_single(4, 3), (1, 2));
+  assert_eq!(multi_dl(to_digit_list(num), to_digit_list(2)), [2, 0, 0]);
+  assert_eq!(multi_dl(to_digit_list(num), to_digit_list(0)), [0]);
   println!("test passed!");
 }
 
@@ -114,3 +118,37 @@ fn subtract_dl(first: Vec<u32>, second: Vec<u32>) -> Vec<u32> {
   }
   return result;
 }
+
+fn multi_dl(first: Vec<u32>, second: Vec<u32>) -> Vec<u32> {
+  let mut final_result: Vec<u32> = vec![0];
+
+  for i in 0..second.len() {
+    let mut positional_result: Vec<u32> = vec![];
+    let mut first_cursor: usize = first.len();
+
+    let mut carry: u32 = 0;
+    while first_cursor != 0 {
+      let mut res: u32 = 0;
+
+      let (immediate_carry, immediate_result) = multi_single(first[first_cursor-1] + carry, second[i]);
+      carry = immediate_carry;
+      res   = immediate_result;
+      first_cursor -= 1;
+      positional_result.insert(0, res);
+      if first_cursor == 0 && carry > 0 {
+        positional_result.insert(0, carry);
+      }
+    }
+    final_result = add_dl(final_result, positional_result);
+  }
+  return final_result;
+}
+
+  fn multi_single(number: u32, multiplier: u32) -> (u32, u32) {
+    let mut res = number * multiplier;
+    if res <  9 {
+      return (0, res);
+    } else {
+      return (res / 10, res % 10);
+    }
+  }
